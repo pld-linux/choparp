@@ -1,0 +1,21 @@
+#!/bin/sh
+
+destunitdir=${1:-/tmp}
+
+# Do nothing if target is disabled
+[ -e /etc/systemd/system/multi-user.target.wants/choparp.target ] || exit 0
+
+[ -f /etc/sysconfig/choparp ] && . /etc/sysconfig/choparp
+
+if [ -d $destunitdir/choparp.target.wants ]; then
+	rm -f $destunitdir/choparp.target.wants/choparp@*.service
+else
+	mkdir -p $destunitdir/choparp.target.wants
+fi
+
+for iface in $INTERFACES; do
+	[ -L $destunitdir/choparp.target.wants/choparp@$iface.service ] && \
+		continue
+	ln -s /lib/systemd/system/choparp@.service \
+		$destunitdir/choparp.target.wants/choparp@$iface.service
+done
