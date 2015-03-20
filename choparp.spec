@@ -3,11 +3,11 @@ Name:		choparp
 Version:	0
 #Rel:       YYMM.#
 Release:    1503.1
+%define _gitver   51c1f0de12585ee2e8c251d44e953f6f4de3ba70
 License:	BSD
 Group:		Applications/Networking
-Source0:	choparp.c
-Source1:	README.md
-Source2:	choparp.8
+Source0:    https://github.com/quinot/choparp/archive/%{_gitver}.zip
+# Source0-md5:	73386c6302f74124d9987b77fef3927a
 Source3:    sample.conf
 Source4:    choparp.sysconfig
 Source5:    choparp-service-generator
@@ -24,11 +24,10 @@ addresses when the requested IP addresses matches a user-provided
 list.
 
 %prep
-%setup -qcT
-install %{SOURCE0} .
-install %{SOURCE1} .
+%setup -q -n %{name}-%{_gitver}
 
 %build
+cd src
 gcc -o choparp choparp.c -lpcap
 
 %install
@@ -39,9 +38,9 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8/} \
            $RPM_BUILD_ROOT{%{systemdtmpfilesdir},%{systemdunitdir}} \
            $RPM_BUILD_ROOT/lib/systemd/system-generators
 
-install choparp $RPM_BUILD_ROOT%{_sbindir}
+install src/choparp $RPM_BUILD_ROOT%{_sbindir}
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man8/
+install src/choparp.8 $RPM_BUILD_ROOT%{_mandir}/man8/
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/eth0.conf
 install %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
