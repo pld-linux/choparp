@@ -53,13 +53,9 @@ cp -p %{SOURCE7} $RPM_BUILD_ROOT%{systemdunitdir}/%{name}@.service
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%service %{name} restart
 %systemd_post %{name}.target
 
 %preun
-if [ "$1" = "0" ]; then
-	%service %{name} stop
-fi
 %systemd_preun %{name}.target
 
 %postun
