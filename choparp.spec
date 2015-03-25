@@ -8,8 +8,8 @@ Version:	0
 Release:	1503.1
 License:	BSD
 Group:		Applications/Networking
-Source0:	https://github.com/quinot/choparp/archive/%{gitrev}.zip
-# Source0-md5:	73386c6302f74124d9987b77fef3927a
+Source0:	https://github.com/quinot/choparp/archive/%{gitrev}.tar.gz
+# Source0-md5:	2a3013b171d9784622fd6078c0562b62
 Source3:	sample.conf
 Source4:	%{name}.sysconfig
 Source5:	%{name}-service-generator
